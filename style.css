@@ -1,0 +1,430 @@
+/* =================================================================== */
+/* THEME SYSTEM & GLOBAL STYLES                                        */
+/* =================================================================== */
+:root {
+    --bg-color: #f5f5f5;
+    --text-color: #212121;
+    --primary-color: #0288d1;
+    --primary-color-rgb: 2, 136, 209;
+    --secondary-color: #fbc02d;
+    --surface-color: #ffffff;
+    --border-color: #e0e0e0;
+    --error-bg: #ffebee;
+    --error-text: #c62828;
+    --shadow-color: rgba(0,0,0,0.05);
+    --grid-color: rgba(0, 0, 0, 0.1);
+    --zeroline-color: rgba(0, 0, 0, 0.25);
+    /* Light mode diff colors */
+    --diff-ins-bg: #e6ffed;
+    --diff-ins-text: #22863a;
+    --diff-del-bg: #ffeef0;
+    --diff-del-text: #b31d28;
+    --diff-info-bg: #f6f8fa;
+    --diff-info-text: #586069;
+    /* Button colors */
+    --clear-button-bg: #6c757d;
+}
+
+.dark-mode {
+    --bg-color: #1e1e1e;
+    --text-color: #f5f5f5;
+    --primary-color: #4fc3f7;
+    --primary-color-rgb: 79, 195, 247;
+    --secondary-color: #d29922;
+    --surface-color: #2a2a2a;
+    --border-color: #444;
+    --error-bg: #3e2723;
+    --error-text: #ef5350;
+    --shadow-color: rgba(0,0,0,0.2);
+    --grid-color: rgba(255, 255, 255, 0.3);
+    --zeroline-color: rgba(255, 255, 255, 0.45);
+    /* Dark mode diff colors */
+    --diff-ins-bg: rgba(46, 160, 67, 0.15);
+    --diff-ins-text: #7ee787;
+    --diff-del-bg: rgba(248, 81, 73, 0.15);
+    --diff-del-text: #ffa198;
+    --diff-info-bg: var(--border-color);
+    --diff-info-text: #a0a0a0;
+    /* Button colors */
+    --clear-button-bg: #555;
+}
+
+/* --- Foundational full-height layout --- */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* =================================================================== */
+/* LAYOUT & HEADER                                                     */
+/* =================================================================== */
+.app-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-header {
+    flex-shrink: 0;
+    position: relative; /* Context for the absolutely positioned controls */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 1rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Prevent global styles from breaking the SVG's internal styling */
+.header-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    fill: none; /* Prevents a global fill from overriding internal fills */
+}
+
+
+.header-title h1 {
+    color: var(--primary-color);
+    margin: 0 0 4px 0;
+    font-size: 2em;
+    text-align: left;
+}
+
+.header-title p {
+    margin: 0;
+    font-size: 1em;
+    opacity: 0.9;
+    text-align: left;
+}
+
+.header-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.github-link svg {
+    display: block;
+    fill: var(--text-color);
+    transition: fill 0.2s ease-in-out;
+}
+
+.github-link:hover svg {
+    fill: var(--primary-color);
+}
+
+
+main {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+/* =================================================================== */
+/* COMPONENTS                                                          */
+/* =================================================================== */
+
+.file-uploader {
+    flex-shrink: 0;
+    padding: 30px;
+    border: 3px dashed var(--border-color);
+    border-radius: 10px;
+    background-color: var(--surface-color);
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 15px auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.file-uploader:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.file-uploader.drag-over {
+    border-color: var(--primary-color);
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+}
+
+.hidden,
+.file-uploader input[type="file"] {
+    display: none;
+}
+
+.status-message, .error-message {
+    margin: 15px auto;
+    padding: 12px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.status-message {
+    font-size: 1.1em;
+    color: var(--secondary-color);
+}
+
+.error-message {
+    color: var(--error-text);
+    background-color: var(--error-bg);
+}
+
+/* Theme Switcher */
+.theme-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-switcher .switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.theme-switcher .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-switcher .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #555;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.theme-switcher .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.theme-switcher input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+.theme-switcher input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* =================================================================== */
+/* TABS & CONTENT AREA                                                 */
+/* =================================================================== */
+
+.tab-container {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border-radius: 8px;
+    background-color: var(--surface-color);
+    overflow-y: auto;
+    box-shadow: 0 1px 3px var(--shadow-color), 0 2px 8px var(--shadow-color);
+}
+
+.tab-navigation {
+    flex-shrink: 0;
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    background-color: var(--surface-color);
+    z-index: 10;
+}
+
+.tab-navigation button {
+    padding: 12px 18px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    opacity: 0.7;
+    border-bottom: 3px solid transparent;
+    font-size: 1em;
+    transition: all 0.2s;
+}
+
+.tab-navigation button:hover { opacity: 1; }
+.tab-navigation button.active {
+    opacity: 1;
+    border-bottom-color: var(--primary-color);
+    font-weight: 600;
+}
+
+
+.controls-row {
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1.5rem;
+    padding: 1rem 1rem 0 1rem;
+}
+
+.file-content, .diff-content {
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 1rem;
+}
+
+.file-selector-group { display: flex; align-items: center; gap: 0.5rem; }
+.file-selector-label { flex-shrink: 0; font-weight: 500; font-size: 0.9em; }
+select {
+    width: 350px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    padding: 8px 12px;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+.compare-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.compare-controls { display: flex; gap: 10px; }
+.compare-button, .clear-button, .download-button { display: flex; align-items: center; justify-content: center; height: 37px; padding: 8px 12px; font-size: 0.9em; font-weight: 500; border: none; border-radius: 5px; cursor: pointer; transition: opacity 0.2s; }
+.download-button { background-color: var(--primary-color); color: white; width: 37px; }
+.download-button svg { width: 20px; height: 20px; }
+.compare-button { background-color: var(--secondary-color); color: #212121; }
+.clear-button {
+    background-color: var(--clear-button-bg);
+    color: white;
+}
+.download-button:disabled, .compare-button:disabled { background-color: #9e9e9e; cursor: not-allowed; opacity: 0.7; }
+.viewer-placeholder { padding: 2rem; opacity: 0.6; text-align: center; flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+.file-content table { width: 100%; border-collapse: collapse; }
+
+.file-content .line-number {
+    position: sticky;
+    left: 0;
+    background-color: var(--surface-color);
+    border-right: 1px solid var(--border-color);
+    padding: 0 1em;
+    text-align: right;
+    color: var(--text-color);
+    opacity: 0.5;
+    user-select: none;
+    width: 50px;
+    box-sizing: border-box;
+}
+
+.file-content .line-text { padding-left: 1rem; white-space: pre; }
+.diff-content .d2h-file-header { display: none; }
+
+/* =================================================================== */
+/* DARK MODE & DIFF FIXES                                              */
+/* =================================================================== */
+
+.dark-mode .file-content .line-number,
+.dark-mode .diff-content .d2h-code-side-linenumber {
+    color: #a0a0a0;
+    opacity: 0.9;
+}
+
+.diff-content .d2h-code-side-linenumber {
+    position: sticky;
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    z-index: 1;
+}
+.diff-content .d2h-code-side-linenumber:first-of-type { left: 0; }
+.diff-content .d2h-code-side-linenumber:last-of-type { right: 0; }
+
+.d2h-ins {
+    background-color: var(--diff-ins-bg);
+}
+.d2h-del {
+    background-color: var(--diff-del-bg);
+}
+.d2h-info {
+    background-color: var(--diff-info-bg);
+    color: var(--diff-info-text);
+}
+
+.dark-mode .d2h-diff-table {
+    background-color: var(--surface-color);
+}
+.dark-mode .d2h-code-side-line,
+.dark-mode .d2h-emptyplaceholder {
+    background-image: none !important;
+    background-color: var(--surface-color);
+}
+.dark-mode tr.d2h-info {
+    background-color: var(--diff-info-bg);
+    color: var(--diff-info-text);
+}
+
+/* FIX: Ensure text within diffs is readable in dark mode */
+.dark-mode .d2h-ins,
+.dark-mode .d2h-ins .d2h-code-line-ctn,
+.dark-mode .d2h-ins .d2h-code-line-prefix {
+    color: var(--diff-ins-text);
+}
+
+.dark-mode .d2h-del,
+.dark-mode .d2h-del .d2h-code-line-ctn,
+.dark-mode .d2h-del .d2h-code-line-prefix {
+    color: var(--diff-del-text);
+}
+
+/* FIX: Style the word-level diff highlights for readability */
+.dark-mode .d2h-ins ins {
+    background-color: rgba(46, 160, 67, 0.4);
+    color: #e6ffed;
+    text-decoration: none;
+}
+
+.dark-mode .d2h-del del {
+    background-color: rgba(248, 81, 73, 0.4);
+    color: #ffeef0;
+    text-decoration: none;
+}
